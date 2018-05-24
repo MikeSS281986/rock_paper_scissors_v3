@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+
+<head>
+  <title>Rock Paper Scissors</title>
+</head>
+
+<body>
+  <div id="container">
+    <div id="play-button">
+      <p id="playP">Play</p>
+    </div>
+    <div id="playerScoreboard">
+      <h2 id="playerh2">Player:</h2>
+      <p id="playerScore" class="scores">0</p>
+    </div>
+    <img id="bye-minion" src="images/Bob_minions_2015.png">
+    <img id="paper" src="images/8-paper-sheet-png-image.png">
+    <h2 id="paperh2">Paper</h2>
+    <img id="rock" src="images/Rock-PNG-Picture.png">
+    <h2 id="rockh2">Rock</h2>
+    <img id="scissors" src="images/Scissors-PNG-Photos.png">
+    <h2 id="scissorsh2">Scissors</h2>
+    <div>
+      <div id="container2">
+        <div id="minionScoreboard">
+          <h2 id="minionh2">Minions:</h2>
+          <p id="minionScore" class="scores">0</p>
+        </div>
+        <div id="window">
+          <div id="crossbarVert">
+          </div>
+          <div id="crossbarHor">
+          </div>
+        </div>
+        <div id="carpet">
+          <img id="minions" src="images/minions_PNG79.png">
+        </div>
+        <div>
+</body>
+<audio id="minion-win" src="sounds/minionhehe.mp3" preload="auto"></audio>
+<audio id="minion-lose" src="sounds/minionwhat.mp3" preload="auto"></audio>
+<audio id="minion-byesound" src="sounds/minionuno.mp3" preload="auto"></audio>
+<script>
+  const OPTIONS = ["rock", "paper", "scissors"];
+  var clickedPlayerSelection;
+  var computerchoice;
+  var playerScore = document.getElementById('playerScore');
+  var minionScore = document.getElementById('minionScore');
+  document.getElementById("play-button").addEventListener("click", function() {
+    document.getElementById("play-button").style.display = "none";
+    document.getElementById("playP").style.display = "none";
+    alert("Rock,Paper, Scissors? Click one to play.\nFirst one to score 5 wins!");
+  });
+  document.getElementById("paper").addEventListener("click", function(clickedPlayerSelection) {
+    clickedPlayerSelection = OPTIONS[1];
+    computerPlay();
+    game(clickedPlayerSelection, computerchoice);
+  });
+  document.getElementById("rock").addEventListener("click", function(clickedPlayerSelection) {
+    clickedPlayerSelection = OPTIONS[0];
+    computerPlay();
+    game(clickedPlayerSelection, computerchoice);
+  });
+  document.getElementById("scissors").addEventListener("click", function(clickedPlayerSelection) {
+    clickedPlayerSelection = OPTIONS[2];
+    computerPlay();
+    game(clickedPlayerSelection, computerchoice);
+  });
+
+  function computerPlay() {
+    computerchoice = OPTIONS[Math.floor(Math.random() * OPTIONS.length)];
+    return computerchoice;
+  }
+
+  function game(clickedPlayerSelection, computerchoice) { //game logic
+    if (clickedPlayerSelection == OPTIONS[0] && computerchoice == "rock") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; It\'s a Draw!');
+    } else if (clickedPlayerSelection == OPTIONS[0] && computerchoice == "paper") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; We beat you!');
+      document.getElementById('minion-win').play();
+      increaseScoreMinion();
+    } else if (clickedPlayerSelection == OPTIONS[0] && computerchoice == "scissors") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; You beat me!');
+      document.getElementById('minion-lose').play();
+      increaseScorePlayer();
+    } else if (clickedPlayerSelection == OPTIONS[1] && computerchoice == "paper") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; It\'s a Draw!');
+    } else if (clickedPlayerSelection == OPTIONS[1] && computerchoice == "rock") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; You beat me!');
+      document.getElementById('minion-lose').play();
+      increaseScorePlayer();
+    } else if (clickedPlayerSelection == OPTIONS[1] && computerchoice == "scissors") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; We beat you!');
+      document.getElementById('minion-win').play();
+      increaseScoreMinion();
+    } else if (clickedPlayerSelection == OPTIONS[2] && computerchoice == "scissors") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; It\'s a Draw!');
+    } else if (clickedPlayerSelection == OPTIONS[2] && computerchoice == "rock") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; We beat you!');
+      document.getElementById('minion-win').play();
+      increaseScoreMinion();
+    } else if (clickedPlayerSelection == OPTIONS[2] && computerchoice == "paper") {
+      alert('Player chose: ' + clickedPlayerSelection + '; Minions chose: ' + computerchoice + '; You beat me!');
+      document.getElementById('minion-lose').play();
+      increaseScorePlayer();
+    } else {
+      alert("Game Error(s)");
+    }
+  }
+
+  function increaseScorePlayer() {
+    var score = playerScore.innerHTML;
+    score++;
+    playerScore.innerHTML = score;
+    if (score == 5) {
+      alert(`You are the winner!`);
+      alert("Game Over");
+      playAgain();
+    }
+  }
+
+  function increaseScoreMinion() {
+    var score = minionScore.innerHTML;
+    score++;
+    minionScore.innerHTML = score;
+    if (score == 5) {
+      alert(`You lose. The minions are the winner!`);
+      alert("Game Over");
+      playAgain();
+    }
+  }
+
+  function clearScores() {
+    playerScore.innerHTML = 0;
+    minionScore.innerHTML = 0;
+  }
+
+  function disableClicks() {
+    document.getElementById("paper").style.display = "none";
+    document.getElementById("rock").style.display = "none";
+    document.getElementById("scissors").style.display = "none";
+    document.getElementById("paperh2").style.display = "none";
+    document.getElementById("rockh2").style.display = "none";
+    document.getElementById("scissorsh2").style.display = "none";
+    document.getElementById("bye-minion").style.display = "block";
+    document.getElementById('minion-byesound').play();
+  }
+
+  function playAgain() {
+    if (confirm('Play again?')) {
+      clearScores();
+      alert("Rock,Paper, Scissors? Click one to play.\nFirst one to score 5 wins!");
+    } else {
+      disableClicks();
+      return; //exit
+    }
+  }
+</script>
+
+
+</html>
